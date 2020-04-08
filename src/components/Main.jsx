@@ -1,7 +1,12 @@
 import React, { useState, useEffect } from 'react'
 
 import ListItem from "./ListItem"
+import eventsData from "./../assets/data/events.js"
+
 import "../styles/Main.scss"
+
+
+const placeholdImage = "https://images.pexels.com/photos/545014/pexels-photo-545014.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500"
 
 export default function Main() {
 
@@ -9,35 +14,28 @@ export default function Main() {
     const [events, setEvents] = useState([])
 
 
+    // set data on component load
+    useEffect(() => {
+
+        setEvents(() => eventsData)
+
+    }, [])
 
 
-    const fetchData = (url) =>
-        fetch(url, { mode: 'no-cors' })
-            .then((resp) => {
-                console.log(resp)
-                console.log("response", resp.text())
-
-            })
-            .then((data) => {
-                console.log(data);
-            });
-
-
-    const mapListItems = () => events.map(event => <ListItem event={event} />)
+    // map through list items
+    const mapListItems = () => events.map((event) => {
+        console.log(event)
+        //
+        return <ListItem event={event} key={event.id} url={placeholdImage} />
+    })
 
 
 
     return (
         <div className="main">
-            <button onClick={() => fetchData('../assets/data/events.json')}>fetchData</button>
-            {events.length}
 
-
-            <h1>Hello with from main</h1>
-
+            <h5>UserData</h5>
             {mapListItems()}
-
-
 
         </div>
     )
